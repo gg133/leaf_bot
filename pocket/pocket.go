@@ -20,8 +20,11 @@ const (
 	endpointAdd          = "/add"
 	endpointRequestToken = "/oauth/request"
 	endpointAuth         = "/oauth/authorize"
-	xErrorHeader         = "X-Error"
-	defaultTimeout       = 5 * time.Second
+
+	// xErrorHeader used to parse error message from Headers on non-2XX responses
+	xErrorHeader = "X-Error"
+
+	defaultTimeout = 5 * time.Second
 )
 
 type (
@@ -48,6 +51,7 @@ type (
 		ConsumerKey string `json:"consumer_key"`
 	}
 
+	// AddInput holds data necessary to create new item in Pocket list
 	AddInput struct {
 		URL         string
 		Title       string
@@ -56,11 +60,13 @@ type (
 	}
 )
 
+// Client is a pocket API client
 type Client struct {
 	client      *http.Client
 	consumerKey string
 }
 
+//doHTTP marshal and do HTTP request with necessary parameters and if everything is ok returns HTTP response values
 func (c *Client) doHTTP(ctx context.Context, endpoint string, body interface{}) (url.Values, error) {
 	b, err := json.Marshal(body)
 	if err != nil {
@@ -99,6 +105,7 @@ func (c *Client) doHTTP(ctx context.Context, endpoint string, body interface{}) 
 	return values, nil
 }
 
+//validate checks for required AddInput parameters
 func (a AddInput) validate() error {
 	if a.URL == "" {
 		return errors.New("required URL values is empty")
@@ -121,6 +128,7 @@ func (a AddInput) generateRequest(consumerKey string) addRequest {
 	}
 }
 
+// NewClient creates a new client with your app key (to generate key visit https://getpocket.com/developer/apps/)
 func NewClient(consumerKey string) (*Client, error) {
 	if consumerKey == "" {
 		return nil, errors.New("consumer key is empty")
@@ -134,6 +142,7 @@ func NewClient(consumerKey string) (*Client, error) {
 	}, nil
 }
 
+// GetRequestToken gets the request token that is used to authorize user in your app
 func (c *Client) GetRequestToken(ctx context.Context, redirectUrl string) (string, error) {
 	inp := &requestTokenRequest{
 		ConsumerKey: c.consumerKey,
@@ -152,6 +161,7 @@ func (c *Client) GetRequestToken(ctx context.Context, redirectUrl string) (strin
 	return values.Get("code"), nil
 }
 
+// GetAuthURL generates link to authorize user
 func (c *Client) GetAuthURL(requestToken, redirectUrl string) (string, error) {
 	if requestToken == "" || redirectUrl == "" {
 		return "", errors.New("empty params")
@@ -160,6 +170,7 @@ func (c *Client) GetAuthURL(requestToken, redirectUrl string) (string, error) {
 	return fmt.Sprintf(authorizeUrl, requestToken, redirectUrl), nil
 }
 
+// Auth generates access token for user that authorized in your app via link
 func (c *Client) Auth(ctx context.Context, requestToken string) (*AuthResponse, error) {
 	if requestToken == "" {
 		return nil, errors.New("empty request token")
@@ -186,6 +197,7 @@ func (c *Client) Auth(ctx context.Context, requestToken string) (*AuthResponse, 
 	}, nil
 }
 
+// Add creates new item in Pocket list
 func (c *Client) Add(ctx context.Context, input AddInput) error {
 	if err := input.validate(); err != nil {
 		return err
