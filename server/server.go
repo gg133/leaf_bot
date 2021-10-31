@@ -26,7 +26,7 @@ func NewAuthServer(pocketClient *pocket.Client, tokenRepository repository.Token
 func (a *AuthServer) Start() error {
 	a.server = &http.Server{
 		Handler: a,
-		Addr:    ":8080",
+		Addr:    ":80",
 	}
 
 	return a.server.ListenAndServe()
