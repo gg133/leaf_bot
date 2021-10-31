@@ -3,6 +3,8 @@ package telegram
 import (
 	"context"
 	"fmt"
+
+	"github.com/yalagtyarzh/leaf_bot/repository"
 )
 
 //generateAuthLink creates redirectURL?chat_id template, gets request token with
@@ -12,6 +14,10 @@ func (b *Bot) generateAuthLink(chatID int64) (string, error) {
 
 	requestToken, err := b.pocketClient.GetRequestToken(context.Background(), redirectURL)
 	if err != nil {
+		return "", err
+	}
+
+	if err := b.tokenRepository.Save(chatID, requestToken, repository.RequestTokens); err != nil {
 		return "", err
 	}
 
