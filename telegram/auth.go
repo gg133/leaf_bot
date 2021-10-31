@@ -26,5 +26,5 @@ func (b *Bot) generateAuthLink(chatID int64) (string, error) {
 
 //generateRedirectURL generates a redirect URL templale with chat_id
 func (b *Bot) generateRedirectURL(chatID int64) string {
-	return fmt.Sprintf("%s?chat_id=%d", b.redirectURL, chatID)
+	return fmt.Sprintf("%s?chat_id=%d", b.redirectUrl, chatID)
 }

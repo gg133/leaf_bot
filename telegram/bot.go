@@ -12,12 +12,12 @@ type Bot struct {
 	bot             *tgbotapi.BotAPI
 	pocketClient    *pocket.Client
 	tokenRepository repository.TokenRepository
-	redirectURL     string
+	redirectUrl     string
 }
 
 //NewBot is constructor for Bot struct
-func NewBot(bot *tgbotapi.BotAPI, pocketClient *pocket.Client, tr repository.TokenRepository, redirectURL string) *Bot {
-	return &Bot{bot: bot, pocketClient: pocketClient, tokenRepository: tr, redirectURL: redirectURL}
+func NewBot(bot *tgbotapi.BotAPI, pocketClient *pocket.Client, tr repository.TokenRepository, redirectUrl string) *Bot {
+	return &Bot{bot: bot, pocketClient: pocketClient, tokenRepository: tr, redirectUrl: redirectUrl}
 }
 
 //Start method starts the bot in telegram, Initializes the telegram bot update channel and starts handle updates
