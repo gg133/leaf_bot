@@ -13,7 +13,7 @@ func (b *Bot) generateAuthLink(chatID int64) (string, error) {
 		return "", err
 	}
 
-	return b.pocketClient.GetAuthURL(requestToken, b.redirectURL)
+	return b.pocketClient.GetAuthURL(requestToken, redirectURL)
 }
 
 func (b *Bot) generateRedirectURL(chatID int64) string {
