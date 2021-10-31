@@ -21,7 +21,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	telegramBot := telegram.NewBot(bot, pocketClient)
+	telegramBot := telegram.NewBot(bot, pocketClient, "http://localhost/")
 	if err := telegramBot.Start(); err != nil {
 		log.Fatal(err)
 	}

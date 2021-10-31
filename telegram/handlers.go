@@ -1,6 +1,7 @@
 package telegram
 
 import (
+	"fmt"
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
@@ -9,7 +10,7 @@ import (
 const (
 	commandStart = "start"
 
-	replyStart = "Hi! To save links to your Pocket account, first you need to give me access to it. To do this, follow the link:\n%s"
+	replyStartTemplate = "Hi! To save links to your Pocket account, first you need to give me access to it. To do this, follow the link:\n%s"
 )
 
 func (b *Bot) handleCommand(message *tgbotapi.Message) error {
@@ -30,9 +31,14 @@ func (b *Bot) handleMessage(message *tgbotapi.Message) {
 }
 
 func (b *Bot) handleStartCommand(message *tgbotapi.Message) error {
-	msg := tgbotapi.NewMessage(message.Chat.ID, "You entered /start command")
+	authLink, err := b.generateAuthLink(message.Chat.ID)
+	if err != nil {
+		return err
+	}
 
-	_, err := b.bot.Send(msg)
+	msg := tgbotapi.NewMessage(message.Chat.ID, fmt.Sprintf(replyStartTemplate, authLink))
+
+	_, err = b.bot.Send(msg)
 	return err
 }
 

@@ -10,10 +10,11 @@ import (
 type Bot struct {
 	bot          *tgbotapi.BotAPI
 	pocketClient *pocket.Client
+	redirectURL  string
 }
 
-func NewBot(bot *tgbotapi.BotAPI, pocketClient *pocket.Client) *Bot {
-	return &Bot{bot: bot, pocketClient: pocketClient}
+func NewBot(bot *tgbotapi.BotAPI, pocketClient *pocket.Client, redirectURL string) *Bot {
+	return &Bot{bot: bot, pocketClient: pocketClient, redirectURL: redirectURL}
 }
 
 func (b *Bot) Start() error {
