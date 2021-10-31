@@ -13,10 +13,12 @@ type Bot struct {
 	redirectURL  string
 }
 
+//NewBot is constructor for Bot struct
 func NewBot(bot *tgbotapi.BotAPI, pocketClient *pocket.Client, redirectURL string) *Bot {
 	return &Bot{bot: bot, pocketClient: pocketClient, redirectURL: redirectURL}
 }
 
+//Start method starts the bot in telegram, Initializes the telegram bot update channel and starts handle updates
 func (b *Bot) Start() error {
 	log.Printf("Authorized on account %s", b.bot.Self.UserName)
 
@@ -29,6 +31,7 @@ func (b *Bot) Start() error {
 	return nil
 }
 
+//handleUpdates method is an infinity cycle, which handle updates from telegram chats
 func (b *Bot) handleUpdates(updates tgbotapi.UpdatesChannel) {
 	for update := range updates {
 		if update.Message == nil {
@@ -44,6 +47,7 @@ func (b *Bot) handleUpdates(updates tgbotapi.UpdatesChannel) {
 	}
 }
 
+//initUpdatesChannel method creates telegram bot update channel
 func (b *Bot) initUpdatesChannel() (tgbotapi.UpdatesChannel, error) {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60

@@ -7,12 +7,17 @@ import (
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 )
 
+//Constants for command handling
 const (
 	commandStart = "start"
+)
 
+//Constants for message templates
+const (
 	replyStartTemplate = "Hi! To save links to your Pocket account, first you need to give me access to it. To do this, follow the link:\n%s"
 )
 
+//handleCommand method handle telegram commands (message, which starts from "/")
 func (b *Bot) handleCommand(message *tgbotapi.Message) error {
 	switch message.Command() {
 	case commandStart:
@@ -23,6 +28,7 @@ func (b *Bot) handleCommand(message *tgbotapi.Message) error {
 
 }
 
+//handleMessage method handle messages (in this case, it sends back a message written by the user before.)
 func (b *Bot) handleMessage(message *tgbotapi.Message) {
 	log.Printf("[%s] %s", message.From.UserName, message.Text)
 
@@ -30,6 +36,7 @@ func (b *Bot) handleMessage(message *tgbotapi.Message) {
 	b.bot.Send(msg)
 }
 
+//handleStartCommand method generates authentification link for pocket and sends message with it link
 func (b *Bot) handleStartCommand(message *tgbotapi.Message) error {
 	authLink, err := b.generateAuthLink(message.Chat.ID)
 	if err != nil {
@@ -42,6 +49,7 @@ func (b *Bot) handleStartCommand(message *tgbotapi.Message) error {
 	return err
 }
 
+//handleUnnkownCommand method sends message which says the command is unknown
 func (b *Bot) handleUnknownCommand(message *tgbotapi.Message) error {
 	msg := tgbotapi.NewMessage(message.Chat.ID, "You entered unknown command")
 
