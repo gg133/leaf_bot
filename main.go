@@ -8,6 +8,7 @@ import (
 	"github.com/yalagtyarzh/leaf_bot/pocket"
 	"github.com/yalagtyarzh/leaf_bot/repository"
 	"github.com/yalagtyarzh/leaf_bot/repository/boltdb"
+	"github.com/yalagtyarzh/leaf_bot/server"
 	"github.com/yalagtyarzh/leaf_bot/telegram"
 )
 
@@ -32,7 +33,16 @@ func main() {
 	tokenRepository := boltdb.NewTokenRepository(db)
 
 	telegramBot := telegram.NewBot(bot, pocketClient, tokenRepository, "http://localhost/")
-	if err := telegramBot.Start(); err != nil {
+
+	authServer := server.NewAuthServer(pocketClient, tokenRepository, "https://t.me/leafAZ_bot")
+
+	go func() {
+		if err := telegramBot.Start(); err != nil {
+			log.Fatal(err)
+		}
+	}()
+
+	if err := authServer.Start(); err != nil {
 		log.Fatal(err)
 	}
 }
