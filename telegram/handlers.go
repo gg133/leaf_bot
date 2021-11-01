@@ -31,32 +31,26 @@ func (b *Bot) handleCommand(message *tgbotapi.Message) error {
 
 }
 
-//handleMessage method checks for url validation in tg message, gets access token from db and if everything is good url saves in Pocket
+//handleMessage method checks for url validation in tg message, gets access token from db and if everything is url saves in Pocket
 func (b *Bot) handleMessage(message *tgbotapi.Message) error {
-	msg := tgbotapi.NewMessage(message.Chat.ID, replyAddSuccess)
-
 	_, err := url.ParseRequestURI(message.Text)
 	if err != nil {
-		msg.Text = "This is an invalid link!"
-		_, err := b.bot.Send(msg)
-		return err
+		return errInvaildURL
 	}
 
 	accessToken, err := b.getAccessToken(message.Chat.ID)
 	if err != nil {
-		msg.Text = "You are not logged in! Use the command /start"
-		_, err := b.bot.Send(msg)
-		return err
+		return errUnauthorized
 	}
+
 	if err := b.pocketClient.Add(context.Background(), pocket.AddInput{
 		AccessToken: accessToken,
 		URL:         message.Text,
 	}); err != nil {
-		msg.Text = "Oops, the link could not be saved. Please try again later."
-		_, err := b.bot.Send(msg)
-		return err
+		return errUnableToSave
 	}
 
+	msg := tgbotapi.NewMessage(message.Chat.ID, replyAddSuccess)
 	_, err = b.bot.Send(msg)
 	return err
 }
