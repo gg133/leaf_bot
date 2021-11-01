@@ -1,4 +1,4 @@
 .vscode
 .bin
-bot.db
-bot.db.lock
+*.db
+.env

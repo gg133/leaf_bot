@@ -5,6 +5,7 @@ import (
 
 	"github.com/boltdb/bolt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/yalagtyarzh/leaf_bot/config"
 	"github.com/yalagtyarzh/leaf_bot/pocket"
 	"github.com/yalagtyarzh/leaf_bot/repository"
 	"github.com/yalagtyarzh/leaf_bot/repository/boltdb"
@@ -13,6 +14,13 @@ import (
 )
 
 func main() {
+	cfg, err := config.Init()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	log.Println(cfg)
+
 	bot, err := tgbotapi.NewBotAPI("YourAwesomeBotToken")
 	if err != nil {
 		log.Fatal(err)

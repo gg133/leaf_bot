@@ -1,0 +1,15 @@
+db_file: "bot.db"
+
+bot_url: "https://t.me/leafAZ_bot"
+
+messages:
+  responses:
+    start: "Hi! To save links to your Pocket account, first you need to give me access to it. To do this, follow the link:\n%s"
+    already_authorized: "You are already authorized! Send me link and I will save it."
+    saved_successfully: "Link saved successfully!"
+    unknown_command: "You entered unknown command"
+  errors:
+    default: "An unknown error has occurred"
+    invalid_url: "This is an invalid link!"
+    unauthorized: "You are not logged in! Use the command /start"
+    unable_to_save: "Oops, the link could not be saved. Please try again later."
