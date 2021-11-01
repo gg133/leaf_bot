@@ -35,6 +35,7 @@ type Responses struct {
 	UnknownCommand    string `mapstructure:"unknown_command"`
 }
 
+//Init() reads config, and returns unmarshaled config.
 func Init() (*Config, error) {
 	viper.AddConfigPath(".")
 	viper.SetConfigName("main")
@@ -64,9 +65,10 @@ func Init() (*Config, error) {
 	return &cfg, nil
 }
 
+//parseEnv takes environment keys, gets value from keys and values if passed to the fields of the config structure
 func parseEnv(cfg *Config) error {
-	os.Setenv("TOKEN", "2037332641:AAHZjtQEifMbv-H0P8lbpLtYFK0cNBIXQfo")
-	os.Setenv("CONSUMER_KEY", "99468-e8c0bfa9c1bc1ae62eadde36")
+	os.Setenv("TOKEN", "YourAwesomeBotToken")
+	os.Setenv("CONSUMER_KEY", "YourAwesomePocketToken")
 	os.Setenv("AUTH_SERVER_URL", "http://localhost/")
 
 	if err := viper.BindEnv("token"); err != nil {
