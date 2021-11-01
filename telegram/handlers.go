@@ -15,9 +15,9 @@ const (
 
 //Constants for message templates
 const (
-	replyStartTemplate     = "Hi! To save links to your Pocket account, first you need to give me access to it. To do this, follow the link:\n%s"
-	replyAlreadyAuthorized = "You are already authorized! Send me link and I will save it."
-	replyAddSuccess        = "Link saved successfully!"
+	replyStartTemplate             = "Hi! To save links to your Pocket account, first you need to give me access to it. To do this, follow the link:\n%s"
+	replyAlreadyAuthorizedTemplate = "You are already authorized! Send me link and I will save it."
+	replyAddSuccessTemplate        = "Link saved successfully!"
 )
 
 //handleCommand method handle telegram commands (message, which starts from "/")
@@ -50,7 +50,7 @@ func (b *Bot) handleMessage(message *tgbotapi.Message) error {
 		return errUnableToSave
 	}
 
-	msg := tgbotapi.NewMessage(message.Chat.ID, replyAddSuccess)
+	msg := tgbotapi.NewMessage(message.Chat.ID, replyAddSuccessTemplate)
 	_, err = b.bot.Send(msg)
 	return err
 }
@@ -62,7 +62,7 @@ func (b *Bot) handleStartCommand(message *tgbotapi.Message) error {
 		return b.initAuthorizationProcess(message)
 	}
 
-	msg := tgbotapi.NewMessage(message.Chat.ID, replyAlreadyAuthorized)
+	msg := tgbotapi.NewMessage(message.Chat.ID, replyAlreadyAuthorizedTemplate)
 	_, err = b.bot.Send(msg)
 	return err
 }
