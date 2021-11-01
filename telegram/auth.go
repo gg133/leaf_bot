@@ -8,6 +8,7 @@ import (
 	"github.com/yalagtyarzh/leaf_bot/repository"
 )
 
+//initAuthorizationProcess generates authentification link and send it to the user
 func (b *Bot) initAuthorizationProcess(message *tgbotapi.Message) error {
 	authLink, err := b.generateAuthLink(message.Chat.ID)
 	if err != nil {

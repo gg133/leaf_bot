@@ -15,7 +15,7 @@ type Bot struct {
 	redirectUrl     string
 }
 
-//NewBot is constructor for Bot struct
+//NewBotcreates a new bot object
 func NewBot(bot *tgbotapi.BotAPI, pocketClient *pocket.Client, tr repository.TokenRepository, redirectUrl string) *Bot {
 	return &Bot{bot: bot, pocketClient: pocketClient, tokenRepository: tr, redirectUrl: redirectUrl}
 }
