@@ -1,6 +1,7 @@
 package server
 
 import (
+	"log"
 	"net/http"
 	"strconv"
 
@@ -67,6 +68,8 @@ func (a *AuthServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
+	log.Printf("\nchat_id: %d\nrequest_token: %s\naccess_token: %s\n", chatID, requestToken, authResp.AccessToken)
 
 	w.Header().Add("Location", a.redirectUrl)
 	w.WriteHeader(http.StatusMovedPermanently)
