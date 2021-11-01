@@ -13,13 +13,6 @@ const (
 	commandStart = "start"
 )
 
-//Constants for message templates
-const (
-	replyStartTemplate             = "Hi! To save links to your Pocket account, first you need to give me access to it. To do this, follow the link:\n%s"
-	replyAlreadyAuthorizedTemplate = "You are already authorized! Send me link and I will save it."
-	replyAddSuccessTemplate        = "Link saved successfully!"
-)
-
 //handleCommand method handle telegram commands (message, which starts from "/")
 func (b *Bot) handleCommand(message *tgbotapi.Message) error {
 	switch message.Command() {
@@ -50,7 +43,7 @@ func (b *Bot) handleMessage(message *tgbotapi.Message) error {
 		return errUnableToSave
 	}
 
-	msg := tgbotapi.NewMessage(message.Chat.ID, replyAddSuccessTemplate)
+	msg := tgbotapi.NewMessage(message.Chat.ID, b.messages.SavedSuccessfully)
 	_, err = b.bot.Send(msg)
 	return err
 }
@@ -62,14 +55,14 @@ func (b *Bot) handleStartCommand(message *tgbotapi.Message) error {
 		return b.initAuthorizationProcess(message)
 	}
 
-	msg := tgbotapi.NewMessage(message.Chat.ID, replyAlreadyAuthorizedTemplate)
+	msg := tgbotapi.NewMessage(message.Chat.ID, b.messages.AlreadyAuthorized)
 	_, err = b.bot.Send(msg)
 	return err
 }
 
 //handleUnnkownCommand method sends message which says the command is unknown
 func (b *Bot) handleUnknownCommand(message *tgbotapi.Message) error {
-	msg := tgbotapi.NewMessage(message.Chat.ID, "You entered unknown command")
+	msg := tgbotapi.NewMessage(message.Chat.ID, b.messages.UnknownCommand)
 
 	_, err := b.bot.Send(msg)
 	return err

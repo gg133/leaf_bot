@@ -19,16 +19,15 @@ func (b *Bot) handleError(chatID int64, err error) {
 
 	switch err {
 	case errInvaildURL:
-		msg.Text = "This is an invalid link!"
+		msg.Text = b.messages.InvalidURL
 		b.bot.Send(msg)
 	case errUnauthorized:
-		msg.Text = "You are not logged in! Use the command /start"
+		msg.Text = b.messages.Unauthorized
 		b.bot.Send(msg)
 	case errUnableToSave:
-		msg.Text = "Oops, the link could not be saved. Please try again later."
+		msg.Text = b.messages.UnableToSave
 		b.bot.Send(msg)
 	default:
 		b.bot.Send(msg)
 	}
-
 }

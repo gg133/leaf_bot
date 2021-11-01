@@ -4,6 +4,7 @@ import (
 	"log"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
+	"github.com/yalagtyarzh/leaf_bot/config"
 	"github.com/yalagtyarzh/leaf_bot/pocket"
 	"github.com/yalagtyarzh/leaf_bot/repository"
 )
@@ -13,11 +14,12 @@ type Bot struct {
 	pocketClient    *pocket.Client
 	tokenRepository repository.TokenRepository
 	redirectUrl     string
+	messages        config.Messages
 }
 
 //NewBotcreates a new bot object
-func NewBot(bot *tgbotapi.BotAPI, pocketClient *pocket.Client, tr repository.TokenRepository, redirectUrl string) *Bot {
-	return &Bot{bot: bot, pocketClient: pocketClient, tokenRepository: tr, redirectUrl: redirectUrl}
+func NewBot(bot *tgbotapi.BotAPI, pocketClient *pocket.Client, tr repository.TokenRepository, redirectUrl string, messages config.Messages) *Bot {
+	return &Bot{bot: bot, pocketClient: pocketClient, tokenRepository: tr, redirectUrl: redirectUrl, messages: messages}
 }
 
 //Start method starts the bot in telegram, Initializes the telegram bot update channel and starts handle updates
