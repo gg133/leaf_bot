@@ -37,7 +37,7 @@ type Responses struct {
 
 //Init() reads config, and returns unmarshaled config.
 func Init() (*Config, error) {
-	viper.AddConfigPath(".")
+	viper.AddConfigPath("config")
 	viper.SetConfigName("main")
 
 	if err := viper.ReadInConfig(); err != nil {
