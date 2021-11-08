@@ -67,6 +67,7 @@ func Init() (*Config, error) {
 
 //parseEnv takes environment keys, gets value from keys and values if passed to the fields of the config structure
 func parseEnv(cfg *Config) error {
+	//UNCOMMENT FOR LOCAL TESTING ONLY
 	// os.Setenv("TOKEN", "YourAwesomeBotToken")
 	// os.Setenv("CONSUMER_KEY", "YourAwesomePocketToken")
 	// os.Setenv("AUTH_SERVER_URL", "http://localhost/")
